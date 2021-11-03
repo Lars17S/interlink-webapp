@@ -38,6 +38,7 @@ const App: React.FC = () => {
     </BrowserRouter>
   );
 };
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

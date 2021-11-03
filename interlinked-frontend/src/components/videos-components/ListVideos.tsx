@@ -36,7 +36,7 @@ interface ListVideosProps {
 }
 
 const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
-  const limit = 4;
+  const limit = 6;
   const [pageNum, setPageNum] = useState(0);
   const [totalVideos, setTotalVideos] = useState(0);
   const [loadingFlag, setLoadingFlag] = useState(true);
@@ -64,6 +64,10 @@ const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
   };
 
   useEffect(() => {
+    setPageNum(0);
+  }, [categorySearch]);
+
+  useEffect(() => {
     const fetchData = async () => {
       const tempListVideos: IData[] = [
         {
@@ -80,6 +84,30 @@ const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
         },
         {
           video_id: 'Video 3',
+          title: 'Video 3',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
+        },
+        {
+          video_id: 'Video 13',
+          title: 'Video 3',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
+        },
+        {
+          video_id: 'Video 14',
+          title: 'Video 3',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
+        },
+        {
+          video_id: 'Video 15',
+          title: 'Video 3',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
+        },
+        {
+          video_id: 'Video 16',
           title: 'Video 3',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
           category: 'Shooters',

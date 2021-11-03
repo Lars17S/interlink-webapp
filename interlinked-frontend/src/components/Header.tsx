@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */ import { css } from '@emotion/react';
 /** @jsxImportSource @emotion/react */ import { Button } from '@mui/material';
 
@@ -28,17 +29,53 @@ const HeaderTitle = css({
 interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
+  const history = useHistory();
   return (
     <div css={HeaderStyle}>
       <div css={DivTitleStyle}>
         <h1 css={HeaderTitle}> Interlinked Webapp</h1>
       </div>
       <div css={DivTitleStyle}>
-        <Button id="menu">Menu</Button>
-        <Button id="videos">Videos</Button>
-        <Button id="events">Eventos</Button>
-        <Button id="about us">Acerca de</Button>
-        <Button id="login">Login</Button>
+        <Button
+          id="menu"
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          Menu
+        </Button>
+        <Button
+          id="videos"
+          onClick={() => {
+            history.push('/videos');
+          }}
+        >
+          Videos
+        </Button>
+        <Button
+          id="events"
+          onClick={() => {
+            history.push('/events');
+          }}
+        >
+          Eventos
+        </Button>
+        <Button
+          id="about us"
+          onClick={() => {
+            history.push('/aboutus');
+          }}
+        >
+          Acerca de
+        </Button>
+        <Button
+          id="login"
+          onClick={() => {
+            history.push('/login');
+          }}
+        >
+          Login
+        </Button>
       </div>
     </div>
   );
