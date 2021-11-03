@@ -19,7 +19,7 @@ const theme = createTheme({
   },
 });
 
-export default function SignIn() {
+const LoginView: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -86,4 +86,6 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default LoginView;
