@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */ import { css } from '@emotion/react';
 import { Button, CircularProgress } from '@mui/material';
 import MultimediaModal from './MultimediaModal';
@@ -34,7 +34,7 @@ interface ListVideosProps {}
 
 const ListVideos: React.FC<ListVideosProps> = ({}) => {
   const [pageNum, setPageNum] = useState(0);
-  const [loadingFlag, setLoadingFlag] = useState(false);
+  const [loadingFlag, setLoadingFlag] = useState(true);
   const [open, setOpen] = useState(false);
   const [dataVideos, setDataVideos] = useState<IData[]>([
     {
@@ -68,6 +68,13 @@ const ListVideos: React.FC<ListVideosProps> = ({}) => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoadingFlag(false);
+    };
+    fetchData();
+  }, [pageNum]);
+
   return (
     <div css={ViewStyle}>
       <div css={ListStyle}>
@@ -76,6 +83,12 @@ const ListVideos: React.FC<ListVideosProps> = ({}) => {
         ) : (
           dataVideos.map((element) => (
             <div>
+              <img
+                src="https://i.redd.it/rn3wqkxoic961.jpg"
+                alt="new"
+                width="300"
+                height="200"
+              />
               <h1> {element.title} </h1>
               <p> {element.description}</p>
               <Button id={element.video_id} onClick={() => handleOpen(element)}>
