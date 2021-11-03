@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */ import { css } from '@emotion/react';
 import { Button, CircularProgress } from '@mui/material';
 import MultimediaModal from './MultimediaModal';
+import { resourceLimits } from 'worker_threads';
 
 const ViewStyle = css({
   padding: '2rem',
@@ -33,21 +34,12 @@ interface IData {
 interface ListVideosProps {}
 
 const ListVideos: React.FC<ListVideosProps> = ({}) => {
+  const limit = 4;
+
   const [pageNum, setPageNum] = useState(0);
   const [loadingFlag, setLoadingFlag] = useState(true);
   const [open, setOpen] = useState(false);
-  const [dataVideos, setDataVideos] = useState<IData[]>([
-    {
-      video_id: 'Video 1',
-      title: 'Video 1',
-      description: 'PONCEPIX CARREANDO NO LO VAS A CREER (tERMINA MAL)',
-    },
-    {
-      video_id: 'Video 2',
-      title: 'Video 2',
-      description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
-    },
-  ]);
+  const [dataVideos, setDataVideos] = useState<IData[]>([]);
   const [videoElement, setVideoElement] = useState<IData>({
     video_id: '',
     title: '',
@@ -70,6 +62,63 @@ const ListVideos: React.FC<ListVideosProps> = ({}) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const tempListVideos: IData[] = [
+        {
+          video_id: 'Video 1',
+          title: 'Video 1',
+          description: 'PONCEPIX CARREANDO NO LO VAS A CREER (tERMINA MAL)',
+        },
+        {
+          video_id: 'Video 2',
+          title: 'Video 2',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 3',
+          title: 'Video 3',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 4',
+          title: 'Video 4',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 5',
+          title: 'Video 5',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 6',
+          title: 'Video 6',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 7',
+          title: 'Video 7',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 8',
+          title: 'Video 8',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 9',
+          title: 'Video 9',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+        {
+          video_id: 'Video 10',
+          title: 'Video 10',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+        },
+      ];
+      const skip = pageNum * limit;
+      const sliceData = tempListVideos.slice(skip, skip + limit);
+      console.log(skip);
+      console.log(sliceData);
+      setDataVideos(sliceData);
       setLoadingFlag(false);
     };
     fetchData();
