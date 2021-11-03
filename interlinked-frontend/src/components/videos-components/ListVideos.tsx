@@ -28,15 +28,17 @@ interface IData {
   video_id: string;
   title: string;
   description: string;
+  category: string;
 }
 
-interface ListVideosProps {}
+interface ListVideosProps {
+  categorySearch: string;
+}
 
-const ListVideos: React.FC<ListVideosProps> = () => {
+const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
   const limit = 4;
-  let totalVideos = 10;
-
   const [pageNum, setPageNum] = useState(0);
+  const [totalVideos, setTotalVideos] = useState(0);
   const [loadingFlag, setLoadingFlag] = useState(true);
   const [open, setOpen] = useState(false);
   const [dataVideos, setDataVideos] = useState<IData[]>([]);
@@ -44,6 +46,7 @@ const ListVideos: React.FC<ListVideosProps> = () => {
     video_id: '',
     title: '',
     description: '',
+    category: '',
   });
 
   const changePageNum = (offset: number) => {
@@ -67,60 +70,80 @@ const ListVideos: React.FC<ListVideosProps> = () => {
           video_id: 'Video 1',
           title: 'Video 1',
           description: 'PONCEPIX CARREANDO NO LO VAS A CREER (tERMINA MAL)',
+          category: 'Shooters',
         },
         {
           video_id: 'Video 2',
           title: 'Video 2',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
         },
         {
           video_id: 'Video 3',
           title: 'Video 3',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
         },
         {
           video_id: 'Video 4',
           title: 'Video 4',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
         },
         {
           video_id: 'Video 5',
           title: 'Video 5',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Shooters',
         },
         {
           video_id: 'Video 6',
           title: 'Video 6',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'MOBA',
         },
         {
           video_id: 'Video 7',
           title: 'Video 7',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'RPG',
         },
         {
           video_id: 'Video 8',
           title: 'Video 8',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'RPG',
         },
         {
           video_id: 'Video 9',
           title: 'Video 9',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Sports',
         },
         {
           video_id: 'Video 10',
           title: 'Video 10',
           description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Sports',
+        },
+        {
+          video_id: 'Video 11',
+          title: 'Video 11',
+          description: 'PEPEX DIAMANTE FLEX III POR FIN SE CUMPLIO ',
+          category: 'Sports',
         },
       ];
       const skip = pageNum * limit;
-      const sliceData = tempListVideos.slice(skip, skip + limit);
+      const filteredData = tempListVideos.filter(
+        (element) => element.category === categorySearch
+      );
+      const sliceData = filteredData.slice(skip, skip + limit);
       setDataVideos(sliceData);
+      setTotalVideos(sliceData.length);
       setLoadingFlag(false);
     };
     fetchData();
-  }, [pageNum]);
+  }, [categorySearch, pageNum]);
 
   return (
     <div css={ViewStyle}>

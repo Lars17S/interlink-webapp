@@ -48,20 +48,25 @@ const InputLabelStyles = css({
   },
 });
 
-interface FilterTitleProps {}
+interface FilterTitleProps {
+  categorySearch: string;
+  setCategorySearch: (category: string) => void;
+}
 
-const FilterTitle: React.FC<FilterTitleProps> = () => {
-  const [filterOption, setFilterOption] = React.useState('Shooters');
+const FilterTitle: React.FC<FilterTitleProps> = ({
+  categorySearch,
+  setCategorySearch,
+}) => {
   const listOptions = ['Shooters', 'MOBA', 'RPG', 'Sports'];
 
   const handleChangeSelect = async (event: SelectChangeEvent<string>) => {
     event.preventDefault();
-    setFilterOption(event.target.value as string);
+    setCategorySearch(event.target.value as string);
   };
 
   return (
     <div css={divStyles}>
-      <h1>{filterOption} Videos</h1>
+      <h1>{categorySearch} Videos</h1>
       <FormControl>
         <InputLabel id="options-label" css={InputLabelStyles}>
           Options
@@ -70,7 +75,7 @@ const FilterTitle: React.FC<FilterTitleProps> = () => {
           css={selectStyle}
           labelId="options-label"
           id="options"
-          value={filterOption}
+          value={categorySearch}
           onChange={handleChangeSelect}
           displayEmpty
         >
