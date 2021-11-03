@@ -76,6 +76,14 @@ const Header: React.FC<HeaderProps> = () => {
         >
           Login
         </Button>
+        <Button
+          id="management"
+          onClick={() => {
+            history.push('/management');
+          }}
+        >
+          Management
+        </Button>
       </div>
     </div>
   );
