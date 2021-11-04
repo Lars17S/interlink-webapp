@@ -13,14 +13,26 @@ const backgroundImage = css({
   justifyContent: 'center',
   display: 'flex',
   alignItems: 'center',
+  
 });
 
+const blockValues = css({
+  width:'30%',
+  
+});
+const blockParagraph = css({
+  width: '150%',
+  textAlign:'justify',
+  
+});
 const HomepageView: React.FC = () => {
   return (
     <div css={backgroundImage}>
-      <div>
+      <div css={blockValues}>
         <h1>FixWithKors Gaming</h1>
-        <p> Description</p>
+        <p css={blockParagraph}> FixWithKors es una empresa que se enfoca en los amantes del Gaming, podras disfrutar de distintos
+          videos relacionados con juegos de Shooters, MOBAs, deportes o RPGs. Disfruta mucho de la aventura.
+        </p>
       </div>
     </div>
   );
