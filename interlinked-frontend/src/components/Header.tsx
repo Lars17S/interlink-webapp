@@ -37,12 +37,12 @@ const Header: React.FC<HeaderProps> = () => {
       </div>
       <div css={DivTitleStyle}>
         <Button
-          id="menu"
+          id="home"
           onClick={() => {
             history.push('/');
           }}
         >
-          Menu
+          Home
         </Button>
         <Button
           id="videos"
