@@ -10,6 +10,23 @@ import HomepageView from './views/HomepageView';
 import LoginView from './views/LoginView';
 import ManagementView from './views/management/ManagementView';
 import VideosView from './views/videos/VideosView';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    background: {
+      default: '#000000',
+      paper: '#121212',
+    },
+  },
+  typography: {
+    button: {
+      fontSize: '28px',
+      textTransform: 'none',
+    },
+  },
+});
 
 const App: React.FC = () => {
   return (
@@ -41,7 +58,9 @@ const App: React.FC = () => {
 
 ReactDOM.render(
   <React.StrictMode>
+     <ThemeProvider theme={theme}>
     <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -6,18 +6,20 @@ import { useHistory } from 'react-router-dom';
 const HeaderStyle = css({
   padding: '1em',
   backgroundColor: 'black',
-  width: '90%',
+  width: 'auto',
   display: 'flex',
   flexWrap: 'nowrap',
   justifyContent: 'space-between',
   alignItems: 'center',
-  margin: '0 auto 3rem',
+  position: 'sticky',
+  
 });
 
 const DivTitleStyle = css({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+  paddingRight: '3em',
 });
 
 const HeaderTitle = css({
