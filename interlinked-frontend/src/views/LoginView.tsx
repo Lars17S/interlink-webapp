@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,6 +8,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { auth } from '../firebase/firebase';
+import {signInWithEmailAndPassword } from "firebase/auth";
+import { useHistory } from 'react-router-dom';
+
 
 const theme = createTheme({
   palette: {
@@ -20,13 +24,22 @@ const theme = createTheme({
 });
 
 const LoginView: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const history = useHistory();
+
+  const signInwithEmail = async () => {
+    try{
+      const user = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+      );
+      console.log(user);
+  }catch(error){
+      console.log(error);
+  }
   };
 
   return (
@@ -49,7 +62,7 @@ const LoginView: React.FC = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={signInwithEmail}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -61,6 +74,8 @@ const LoginView: React.FC = () => {
               label="Correo electronico"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               autoFocus
             />
             <TextField
@@ -71,6 +86,8 @@ const LoginView: React.FC = () => {
               label="Contraseña"
               type="password"
               id="password"
+              value={password}
+              onChange={(event) => {setPassword(event.target.value)}}
               autoComplete="current-password"
             />
             <Button

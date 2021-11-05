@@ -49,10 +49,10 @@ const ManagementView: React.FC = () => {
     });
   };
 
-  const [currency, setCurrency] = React.useState('Shooters');
+  const [category, setCategory] = React.useState('Shooters');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrency(event.target.value);
+    setCategory(event.target.value);
   };
 
   return (
@@ -112,7 +112,7 @@ const ManagementView: React.FC = () => {
               fullWidth
               label="Categoría"
               sx={{ mt: 3, mb: 2 }}
-              value={currency}
+              value={category}
               onChange={handleChange}
             >
               {categories.map((option) => (
