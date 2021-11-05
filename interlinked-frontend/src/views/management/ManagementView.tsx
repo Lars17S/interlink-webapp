@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
+import { createDoc } from '../../firebase/firebaseFirestore';
 
 const theme = createTheme({
   palette: {
@@ -40,20 +41,25 @@ const categories = [
 ];
 
 const ManagementView: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
 
   const [category, setCategory] = React.useState('Shooters');
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(event.target.value);
   };
+
+  const uploadVideo = (event: React.FormEvent) => {
+    event.preventDefault();
+    createDoc(category, description, link, title).then((result) => {
+      if (result.state === 'success') console.log("epic!");
+      else console.log(result.error);
+    });
+  };
+
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,38 +79,44 @@ const ManagementView: React.FC = () => {
           <Typography component="h1" variant="h5">
             Publicar video
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
             <TextField
               margin="normal"
               fullWidth
               required
-              id="Titulo"
+              id="title"
               label="Título"
-              name="Titulo"
+              name="title"
               autoFocus
+              value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="Link"
+              name="link"
               label="Link"
-              id="Link"
+              id="link"
+              value={link}
+            onChange={(event) => {
+              setLink(event.target.value);
+            }}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="Descripcion"
+              name="Description"
               label="Descripción"
-              id="Descripcion"
+              id="Description"
               multiline
               maxRows={4}
+              value={description}
+            onChange={(event) => {
+              setDescription(event.target.value);
+            }}
             />
             <TextField
               id="outlined-select-Category"
@@ -125,6 +137,7 @@ const ManagementView: React.FC = () => {
               type="submit"
               fullWidth
               variant="contained"
+              onClick={uploadVideo}
               sx={{ mt: 3, mb: 2 }}
             >
               Subir
@@ -139,7 +152,6 @@ const ManagementView: React.FC = () => {
               Cancelar
             </Button>
           </Box>
-        </Box>
       </Container>
     </ThemeProvider>
   );
