@@ -9,9 +9,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from '../firebase/firebase';
-import {signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useHistory } from 'react-router-dom';
-
 
 const theme = createTheme({
   palette: {
@@ -24,22 +23,15 @@ const theme = createTheme({
 });
 
 const LoginView: React.FC = () => {
-
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const history = useHistory();
 
   const signInwithEmail = async () => {
-    try{
-      const user = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password,
-      );
-      console.log(user);
-  }catch(error){
-      console.log(error);
-  }
+    const userCred = await signInWithEmailAndPassword(auth, email, password);
+    if (userCred.user !== null) {
+      history.push('/management');
+    }
   };
 
   return (
@@ -60,45 +52,48 @@ const LoginView: React.FC = () => {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box
+          {/* <Box
             component="form"
-            onSubmit={signInwithEmail}
+            // onSubmit={onSubmitTest}
             noValidate
             sx={{ mt: 1 }}
+          > */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Correo electronico"
+            name="email"
+            autoComplete="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Contraseña"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+            autoComplete="current-password"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            onClick={() => signInwithEmail()}
+            sx={{ mt: 3, mb: 2 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Correo electronico"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              value={password}
-              onChange={(event) => {setPassword(event.target.value)}}
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Login
-            </Button>
-          </Box>
+            Login
+          </Button>
+          {/* </Box> */}
         </Box>
       </Container>
     </ThemeProvider>
