@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Box,
+  Typography,
+  Container,
+  createTheme,
+  ThemeProvider,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { auth } from '../firebase/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useHistory } from 'react-router-dom';
+import { signInwithEmail } from '../firebase/firebaseAuth';
 
 const theme = createTheme({
   palette: {
@@ -27,11 +29,12 @@ const LoginView: React.FC = () => {
   const [email, setEmail] = useState('');
   const history = useHistory();
 
-  const signInwithEmail = async () => {
-    const userCred = await signInWithEmailAndPassword(auth, email, password);
-    if (userCred.user !== null) {
-      history.push('/management');
-    }
+  const onSubmitLogin = (event: React.FormEvent) => {
+    event.preventDefault();
+    signInwithEmail(email, password).then((result) => {
+      if (result.state === 'success') history.push('/management');
+      else console.log(result.error);
+    });
   };
 
   return (
@@ -88,7 +91,7 @@ const LoginView: React.FC = () => {
             type="submit"
             fullWidth
             variant="contained"
-            onClick={() => signInwithEmail()}
+            onClick={onSubmitLogin}
             sx={{ mt: 3, mb: 2 }}
           >
             Login
