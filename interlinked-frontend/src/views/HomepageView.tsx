@@ -6,7 +6,7 @@ const backgroundImage = css({
   width: '100%',
   backgroundImage: `url("https://c.tenor.com/8gGCkmG_slAAAAAd/destiny2-beyond-light.gif")` ,
   backgroundColor: 'black',
-  minHeight: 'calc(100vh)',
+  minHeight: 'calc(100vh - 93px)',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
   backgroundSize: '100%',
@@ -29,12 +29,18 @@ const theme = createTheme({
 
 const blockValues = css({
   width:'30%',
+  lineHeight: '4.5em',
+  fontSize: '2.5em',
+  paddingBottom: '4em',
   
   
 });
 const blockParagraph = css({
   width: '150%',
   textAlign:'justify',
+  lineHeight: '1em',
+  fontSize: '0.4em',
+  
   
 });
 const HomepageView: React.FC = () => {
