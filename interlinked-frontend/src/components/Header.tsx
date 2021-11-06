@@ -54,14 +54,14 @@ const Header: React.FC<HeaderProps> = () => {
         >
           Videos
         </Button>
-        <Button
+        {/* <Button
           id="events"
           onClick={() => {
             history.push('/events');
           }}
         >
           Eventos
-        </Button>
+        </Button> */}
         <Button
           id="about us"
           onClick={() => {

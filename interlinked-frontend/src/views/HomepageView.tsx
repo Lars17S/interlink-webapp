@@ -43,12 +43,16 @@ const blockParagraph = css({
   
   
 });
+
+const titleBlock = css({
+  width: '120%',
+});
 const HomepageView: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div css={backgroundImage}>
         <div css={blockValues}>
-          <h1>FixWithKors Gaming</h1>
+          <h1 css={titleBlock}>FixWithKors Gaming</h1>
           <p css={blockParagraph}> FixWithKors es una empresa que se enfoca en los amantes del Gaming, podras disfrutar de distintos
             videos relacionados con juegos de Shooters, MOBAs, deportes o RPGs. Disfruta mucho de la aventura.
           </p>

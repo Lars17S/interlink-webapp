@@ -24,6 +24,11 @@ const ButtonDivStyle = css({
   padding: '1rem',
 });
 
+const blockValues = css({
+  width:'80%',  
+  
+});
+
 interface IData {
   video_id: string;
   title: string;
@@ -187,11 +192,13 @@ const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
                 width="300"
                 height="200"
               />
+              <div css={blockValues}>
               <h1> {element.title} </h1>
               <p> {element.description}</p>
               <Button id={element.video_id} onClick={() => handleOpen(element)}>
                 Ver video
               </Button>
+              </div>
             </div>
           ))
         )}
