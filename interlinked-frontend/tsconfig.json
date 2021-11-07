@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react"
   },
-  "include": ["src"]
+  "include": ["src", "../interlinked-backend/src/firebase/firebase.ts", "../interlinked-backend/src/firebase/config.ts"]
 }
