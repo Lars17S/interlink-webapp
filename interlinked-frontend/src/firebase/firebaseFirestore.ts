@@ -24,3 +24,9 @@ export const getVidsByCategory = async (Category: string): Promise<QuerySnapshot
 
   return await getDocs(q);
 };
+
+export const getAllVids = async (): Promise<QuerySnapshot<DocumentData>> => {
+  const q = query(collection(db, "videos"));
+
+  return await getDocs(q);
+};
