@@ -1,32 +1,52 @@
+import { db } from './firebase';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 
-import { db } from "./firebase";
-import { collection, addDoc, query, where, getDocs, QuerySnapshot, DocumentData } from "firebase/firestore";
-import { videos } from "../utils/interfaces";
-
-export const createDoc = async (video: videos): Promise<SuccessState | AuthenticationError> => {
+export const createVideoDoc = async (
+  videoInfo: VideoData
+): Promise<SuccessState | FirestoreError> => {
   try {
-    const docRef = await addDoc(collection(db, "videos"), {
-      Category: video.Category,
-      Description: video.Description,
-      Link: video.Link,
-      Title: video.Title,
+    await addDoc(collection(db, 'videos'), {
+      category: videoInfo.category,
+      description: videoInfo.description,
+      link: videoInfo.link,
+      title: videoInfo.title,
     });
-    console.log("Document written with ID: ", docRef.id);
-    return { state: "success" };
-  } catch (e) {
-    console.error("Error adding document: ", e);
-    return { state: "auth error", error: "Unknown Error" };
+    return { state: 'success' };
+  } catch (error) {
+    return { state: 'store error', error: 'Unknown Error' };
   }
 };
 
-export const getVidsByCategory = async (Category: string): Promise<QuerySnapshot<DocumentData>> => {
-  const q = query(collection(db, "videos"), where("Category", "==", Category));
-
-  return await getDocs(q);
+export const getVideosByCategory = async (
+  category: string
+): Promise<Video[]> => {
+  const q = query(collection(db, 'videos'), where('category', '==', category));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => {
+    const data = doc.data();
+    const videoInfo: Video = {
+      videoID: doc.id,
+      category: data.category,
+      description: data.description,
+      link: data.link,
+      title: data.title,
+    };
+    return videoInfo;
+  });
 };
 
-export const getAllVids = async (): Promise<QuerySnapshot<DocumentData>> => {
-  const q = query(collection(db, "videos"));
-
-  return await getDocs(q);
+export const getAllVideos = async (): Promise<Video[]> => {
+  const q = query(collection(db, 'videos'));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => {
+    const data = doc.data();
+    const videoInfo: Video = {
+      videoID: doc.id,
+      category: data.category,
+      description: data.description,
+      link: data.link,
+      title: data.title,
+    };
+    return videoInfo;
+  });
 };

@@ -27,20 +27,27 @@ const style = {
 };
 
 interface MultimediaModalProps {
-  data: {
-    video_id: string;
-    title: string;
-    description: string;
-  };
+  videoInfo: VideoData;
   open: boolean;
   handleClose: () => void;
 }
 
 const MultimediaModal: React.FC<MultimediaModalProps> = ({
-  data,
+  videoInfo,
   open,
   handleClose,
 }) => {
+  const getVideoEmbedLink = (link: string): string => {
+    const regEx =
+      '^(?:https?:)?//[^/]*(?:youtube(?:-nocookie)?.com|youtu.be).*[=/]([-\\w]{11})(?:\\?|=|&|$)';
+    const youtubeID = link.match(regEx);
+    if (youtubeID) {
+      const embedLink = 'https://www.youtube.com/embed/' + youtubeID[1];
+      return embedLink;
+    }
+    return '';
+  };
+
   return (
     <Modal
       open={open}
@@ -51,19 +58,19 @@ const MultimediaModal: React.FC<MultimediaModalProps> = ({
       <div>
         <Box sx={style}>
           <iframe
-            width="853"
-            height="480"
-            src={`https://www.youtube.com/embed/KYxsNJYgrgI`}
+            width="750"
+            height="430"
+            src={getVideoEmbedLink(videoInfo.link)}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title="Embedded youtube"
           />
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            {data.title}
+            {videoInfo.title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {data.description}
+            {videoInfo.description}
           </Typography>
           <Button id="close" onClick={() => handleClose()}>
             Close
