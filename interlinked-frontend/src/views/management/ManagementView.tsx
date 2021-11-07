@@ -9,7 +9,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
-import { createDoc } from "../../firebase/firebaseFirestore";
+import { createDoc, getVidsByCategory } from "../../firebase/firebaseFirestore";
+import { videos } from "../../utils/interfaces";
 
 const theme = createTheme({
   palette: {
@@ -40,8 +41,10 @@ const categories = [
   },
 ];
 
+let video: videos;
+
 const ManagementView: React.FC = () => {
-  const [category, setCategory] = React.useState("Shooters");
+  const [category, setCategory] = React.useState("");
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
@@ -52,10 +55,27 @@ const ManagementView: React.FC = () => {
 
   const uploadVideo = (event: React.FormEvent) => {
     event.preventDefault();
-    createDoc(category, description, link, title).then((result) => {
-      if (result.state === "success") console.log("epic!");
+    video = {
+      Category: category,
+      Description: description,
+      Link: link,
+      Title: title,
+    };
+    createDoc(video).then((result) => {
+      if (result.state === "success"){
+        setCategory("");
+        setTitle("");
+        setLink("");
+        setDescription("");
+        console.log("Video uploaded successfully");
+      }
       else console.log(result.error);
     });
+    /* getVidsByCategory(category).then((result) => {
+      result.forEach((doc) => {
+        console.log(doc.data());
+      });
+    }); */
   };
 
   return (
