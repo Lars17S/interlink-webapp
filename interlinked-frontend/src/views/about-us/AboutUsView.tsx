@@ -7,7 +7,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 const backgroundBlock = css({
   width: '100%',
   backgroundColor: 'black',
-  minHeight: 'calc(100vh - 93px)',
+  minHeight: 'calc(100vh)',
   backgroundPosition: 'center',
   backgroundSize: '100%',
   color: 'white',
