@@ -78,6 +78,14 @@ const ManagementView: React.FC = () => {
     }); */
   };
 
+  const cancelButton = (event: React.FormEvent) => {
+    event.preventDefault();
+        setCategory("");
+        setTitle("");
+        setLink("");
+        setDescription("");
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -165,6 +173,7 @@ const ManagementView: React.FC = () => {
             color="error"
             variant="contained"
             sx={{ mt: 0, mb: 2 }}
+            onClick={cancelButton}
           >
             Cancelar
           </Button>
