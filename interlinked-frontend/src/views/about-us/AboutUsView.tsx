@@ -43,9 +43,9 @@ const AboutUsView: React.FC = () => {
           redes sociales mostradas más abajo
         </p>
         <div css={socialMediaBlock}>
-          <FacebookIcon />
-          <InstagramIcon />
-          <TwitterIcon />
+          <FacebookIcon onClick={() => window.open('https://www.facebook.com/', '_blank')}/>
+          <InstagramIcon onClick={() => window.open('https://www.instagram.com/', '_blank')} />
+          <TwitterIcon  onClick={() => window.open('https://twitter.com/', '_blank')}/>
         </div>
       </div>
     </div>
