@@ -1,58 +1,89 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import UploadIcon from '@mui/icons-material/Upload';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import MenuItem from '@mui/material/MenuItem';
+import React, { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import UploadIcon from "@mui/icons-material/Upload";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import MenuItem from "@mui/material/MenuItem";
+import { createDoc, getVidsByCategory } from "../../firebase/firebaseFirestore";
+import { videos } from "../../utils/interfaces";
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     background: {
-      default: '#000000',
-      paper: '#121212',
+      default: "#000000",
+      paper: "#121212",
     },
   },
 });
 
 const categories = [
   {
-    value: 'Shooters',
-    label: 'Shooters',
+    value: "Shooters",
+    label: "Shooters",
   },
   {
-    value: 'MOBA',
-    label: 'MOBA',
+    value: "MOBA",
+    label: "MOBA",
   },
   {
-    value: 'RPG',
-    label: 'RPG',
+    value: "RPG",
+    label: "RPG",
   },
   {
-    value: 'Sports',
-    label: 'Sports',
+    value: "Sports",
+    label: "Sports",
   },
 ];
 
-const ManagementView: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+let video: videos;
 
-  const [currency, setCurrency] = React.useState('Shooters');
+const ManagementView: React.FC = () => {
+  const [category, setCategory] = React.useState("");
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrency(event.target.value);
+    setCategory(event.target.value);
+  };
+
+  const uploadVideo = (event: React.FormEvent) => {
+    event.preventDefault();
+    video = {
+      Category: category,
+      Description: description,
+      Link: link,
+      Title: title,
+    };
+    createDoc(video).then((result) => {
+      if (result.state === "success"){
+        setCategory("");
+        setTitle("");
+        setLink("");
+        setDescription("");
+        console.log("Video uploaded successfully");
+      }
+      else console.log(result.error);
+    });
+    /* getVidsByCategory(category).then((result) => {
+      result.forEach((doc) => {
+        console.log(doc.data());
+      });
+    }); */
+  };
+
+  const cancelButton = (event: React.FormEvent) => {
+    event.preventDefault();
+        setCategory("");
+        setTitle("");
+        setLink("");
+        setDescription("");
   };
 
   return (
@@ -62,83 +93,90 @@ const ManagementView: React.FC = () => {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <UploadIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Publicar video
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+          <TextField
+            margin="normal"
+            fullWidth
+            required
+            id="title"
+            label="Título"
+            name="title"
+            autoFocus
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="link"
+            label="Link"
+            id="link"
+            value={link}
+            onChange={(event) => {
+              setLink(event.target.value);
+            }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="Description"
+            label="Descripción"
+            id="Description"
+            multiline
+            maxRows={4}
+            value={description}
+            onChange={(event) => {
+              setDescription(event.target.value);
+            }}
+          />
+          <TextField
+            id="outlined-select-Category"
+            select
+            fullWidth
+            label="Categoría"
+            sx={{ mt: 3, mb: 2 }}
+            value={category}
+            onChange={handleChange}
           >
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              id="Titulo"
-              label="Título"
-              name="Titulo"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="Link"
-              label="Link"
-              id="Link"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="Descripcion"
-              label="Descripción"
-              id="Descripcion"
-              multiline
-              maxRows={4}
-            />
-            <TextField
-              id="outlined-select-Category"
-              select
-              fullWidth
-              label="Categoría"
-              sx={{ mt: 3, mb: 2 }}
-              value={currency}
-              onChange={handleChange}
-            >
-              {categories.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Subir
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              color="error"
-              variant="contained"
-              sx={{ mt: 0, mb: 2 }}
-            >
-              Cancelar
-            </Button>
-          </Box>
+            {categories.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            onClick={uploadVideo}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Subir
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            color="error"
+            variant="contained"
+            sx={{ mt: 0, mb: 2 }}
+            onClick={cancelButton}
+          >
+            Cancelar
+          </Button>
         </Box>
       </Container>
     </ThemeProvider>
