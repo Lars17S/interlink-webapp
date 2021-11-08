@@ -69,6 +69,8 @@ const buttonStyle = css({
   [mq[0]]: {
     //responsive smallest
     display: 'none',
+    transitionDuration: '10s',
+    transitionProperty: 'width',
   },
   [mq[1]]: {
     //responsive middle size
@@ -83,6 +85,8 @@ const buttonStyleShow = css({
     position: 'relative',
     backgroundColor: 'black',
     marginTop:'1em',
+    transitionDuration: '10s',
+    transitionProperty: 'width',
 
 
   },
