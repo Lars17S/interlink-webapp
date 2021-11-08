@@ -24,6 +24,8 @@ const HeaderStyle = css({
   position: 'sticky',
   [mq[0]]: {
     //responsive smallest
+    position: 'relative',
+    justifyContent: 'flex-start',
   },
   [mq[1]]: {
     //responsive middle size
@@ -39,6 +41,7 @@ const DivTitleStyle = css({
   [mq[0]]: {
     //responsive smallest
     flexDirection: 'column',
+    alignItems: 'right',
     
   },
   [mq[1]]: {
@@ -105,6 +108,8 @@ const hamburgerStyle = css({
     //responsive smallest
     display: 'flex',
     position: 'relative',
+    
+    
 
   },
   [mq[1]]: {
@@ -126,7 +131,7 @@ const Header: React.FC<HeaderProps> = () => {
       <div css={DivTitleStyle}>
         <h1 css={HeaderTitle}> Interlinked Webapp</h1>
       </div>
-      <div css={DivTitleStyle} className="buttonDiv">
+      <div css={DivTitleStyle}>
         <MenuIcon css={hamburgerStyle}
           onClick={() => 
             
