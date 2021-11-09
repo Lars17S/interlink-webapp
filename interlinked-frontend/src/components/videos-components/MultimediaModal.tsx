@@ -5,23 +5,21 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 // width="853"
 // height="480"
 
-const breakpoints = [830, 1200, 1500]
+const breakpoints = [830, 1200, 1500];
 
-const mq = breakpoints.map(
-  bp => `@media (max-width: ${bp}px)`
-)
+const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
 const videoSize = css({
-    width: "90%",
-    height: "100%",
-    [mq[0]]: {
-      //responsive smallest
-    },
-    [mq[1]]: {
-      //responsive middle size
-      width: "90%",
-      height: "95%",
-    }
+  width: '90%',
+  height: '100%',
+  [mq[0]]: {
+    //responsive smallest
+  },
+  [mq[1]]: {
+    //responsive middle size
+    width: '90%',
+    height: '95%',
+  },
 });
 
 const titleVideo = css({
@@ -33,9 +31,7 @@ const titleVideo = css({
   },
   [mq[1]]: {
     //responsive middle size
-    
-  }
-
+  },
 });
 
 const style = {
@@ -68,24 +64,31 @@ const style = {
   [mq[1]]: {
     //responsive middle size
     transform: 'translate(-50%, -50%)',
-  }
+  },
 };
 
 interface MultimediaModalProps {
-  data: {
-    video_id: string;
-    title: string;
-    description: string;
-  };
+  videoInfo: VideoData;
   open: boolean;
   handleClose: () => void;
 }
 
 const MultimediaModal: React.FC<MultimediaModalProps> = ({
-  data,
+  videoInfo,
   open,
   handleClose,
 }) => {
+  const getVideoEmbedLink = (link: string): string => {
+    const regEx =
+      '^(?:https?:)?//[^/]*(?:youtube(?:-nocookie)?.com|youtu.be).*[=/]([-\\w]{11})(?:\\?|=|&|$)';
+    const youtubeID = link.match(regEx);
+    if (youtubeID) {
+      const embedLink = 'https://www.youtube.com/embed/' + youtubeID[1];
+      return embedLink;
+    }
+    return '';
+  };
+
   return (
     <Modal
       open={open}
@@ -96,21 +99,22 @@ const MultimediaModal: React.FC<MultimediaModalProps> = ({
       <div>
         <Box sx={style}>
           <iframe
-            css ={videoSize}
-            // width= "753"
-            // height= "380"
-            src={`https://www.youtube.com/embed/KYxsNJYgrgI`}
+            width="750"
+            height="430"
+            src={getVideoEmbedLink(videoInfo.link)}
+            css={videoSize}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title="Embedded youtube"
           />
+
           <div css={titleVideo}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              {data.title}
+              {videoInfo.title}
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              {data.description}
+              {videoInfo.description}
             </Typography>
             <Button id="close" onClick={() => handleClose()}>
               Close
