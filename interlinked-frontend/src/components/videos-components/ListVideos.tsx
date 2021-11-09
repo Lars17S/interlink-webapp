@@ -25,6 +25,10 @@ const ButtonDivStyle = css({
   padding: '1rem',
 });
 
+const blockValues = css({
+  width: '80%',
+});
+
 interface ListVideosProps {
   categorySearch: string;
 }
@@ -99,11 +103,16 @@ const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
                 width="300"
                 height="200"
               />
-              <h1> {element.title} </h1>
-              <p> {element.description}</p>
-              <Button id={element.videoID} onClick={() => handleOpen(element)}>
-                Ver video
-              </Button>
+              <div css={blockValues}>
+                <h1> {element.title} </h1>
+                <p> {element.description}</p>
+                <Button
+                  id={element.videoID}
+                  onClick={() => handleOpen(element)}
+                >
+                  Ver video
+                </Button>
+              </div>
             </div>
           ))
         )}
