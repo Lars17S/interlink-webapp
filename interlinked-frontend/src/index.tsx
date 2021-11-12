@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './index.css';
@@ -11,6 +11,8 @@ import LoginView from './views/LoginView';
 import ManagementView from './views/management/ManagementView';
 import VideosView from './views/videos/VideosView';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { isLoggedIn } from './firebase/firebaseAuth';
+import PrivateRoute from './components/PrivateRoute';
 
 const theme = createTheme({
   palette: {
@@ -29,9 +31,10 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  const [userAcc, setUserAcc] = useState<UserAcc>();
   return (
     <BrowserRouter>
-      <Header />
+      <Header userAcc={userAcc} />
       <Switch>
         <Route path="/videos">
           <VideosView />
@@ -43,11 +46,11 @@ const App: React.FC = () => {
           <AboutUsView />
         </Route>
         <Route path="/login">
-          <LoginView />
+          <LoginView setUserAcc={setUserAcc} />
         </Route>
-        <Route path="/management">
+        <PrivateRoute path="/management" hasPermission={isLoggedIn(userAcc)}>
           <ManagementView />
-        </Route>
+        </PrivateRoute>
         <Route path="/">
           <HomepageView />
         </Route>
@@ -58,8 +61,8 @@ const App: React.FC = () => {
 
 ReactDOM.render(
   <React.StrictMode>
-     <ThemeProvider theme={theme}>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

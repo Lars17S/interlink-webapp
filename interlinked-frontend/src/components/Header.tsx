@@ -1,17 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */ import { css } from '@emotion/react';
 /** @jsxImportSource @emotion/react */ import { Button } from '@mui/material';
-import { maxWidth } from '@mui/system';
 import MenuIcon from '@mui/icons-material/Menu';
 import './header.css';
 
+const breakpoints = [830, 1200, 1500];
 
-const breakpoints = [830, 1200, 1500]
-
-const mq = breakpoints.map(
-  bp => `@media (max-width: ${bp}px)`
-)
+const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
 const HeaderStyle = css({
   padding: '1em',
@@ -29,8 +25,7 @@ const HeaderStyle = css({
   },
   [mq[1]]: {
     //responsive middle size
- 
-  }
+  },
 });
 
 const DivTitleStyle = css({
@@ -42,15 +37,11 @@ const DivTitleStyle = css({
     //responsive smallest
     flexDirection: 'column',
     alignItems: 'right',
-    
   },
   [mq[1]]: {
     //responsive middle size
-    
-  }
-
+  },
 });
-
 
 const HeaderTitle = css({
   fontWeight: 500,
@@ -64,8 +55,7 @@ const HeaderTitle = css({
     //responsive middle size
     fontWeight: 10,
     fontSize: '2rem',
-    
-  }
+  },
 });
 
 const buttonStyle = css({
@@ -78,8 +68,7 @@ const buttonStyle = css({
   [mq[1]]: {
     //responsive middle size
     fontSize: '1rem',
-    
-  }
+  },
 });
 const buttonStyleShow = css({
   [mq[0]]: {
@@ -87,17 +76,14 @@ const buttonStyleShow = css({
     display: 'flex',
     position: 'relative',
     backgroundColor: 'black',
-    marginTop:'1em',
+    marginTop: '1em',
     transitionDuration: '10s',
     transitionProperty: 'width',
-
-
   },
   [mq[1]]: {
     //responsive middle size
     fontSize: '1rem',
-    
-  }
+  },
 });
 
 const hamburgerStyle = css({
@@ -108,21 +94,17 @@ const hamburgerStyle = css({
     //responsive smallest
     display: 'flex',
     position: 'relative',
-    
-    
-
   },
   [mq[1]]: {
     //responsive middle size
-    
-    
-  }
+  },
 });
 
+interface HeaderProps {
+  userAcc: UserAcc | undefined;
+}
 
-interface HeaderProps {}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC<HeaderProps> = ({ userAcc }) => {
   const history = useHistory();
 
   const [showLinks, setShowLinks] = useState(false);
@@ -132,14 +114,12 @@ const Header: React.FC<HeaderProps> = () => {
         <h1 css={HeaderTitle}> Interlinked Webapp</h1>
       </div>
       <div css={DivTitleStyle}>
-        <MenuIcon css={hamburgerStyle}
-          onClick={() => 
-            
-            setShowLinks(!showLinks)
-          }
+        <MenuIcon
+          css={hamburgerStyle}
+          onClick={() => setShowLinks(!showLinks)}
         />
-        <Button 
-          css={showLinks ?  buttonStyleShow : buttonStyle}
+        <Button
+          css={showLinks ? buttonStyleShow : buttonStyle}
           id="home"
           onClick={() => {
             history.push('/');
@@ -149,7 +129,7 @@ const Header: React.FC<HeaderProps> = () => {
           Home
         </Button>
         <Button
-          css={showLinks ?  buttonStyleShow : buttonStyle}
+          css={showLinks ? buttonStyleShow : buttonStyle}
           id="videos"
           onClick={() => {
             history.push('/videos');
@@ -167,35 +147,39 @@ const Header: React.FC<HeaderProps> = () => {
           Eventos
         </Button> */}
         <Button
-          css={showLinks ?  buttonStyleShow : buttonStyle}
+          css={showLinks ? buttonStyleShow : buttonStyle}
           id="about us"
           onClick={() => {
             history.push('/aboutus');
-            setShowLinks(false)
+            setShowLinks(false);
           }}
         >
           Acerca de
         </Button>
         <Button
-          css={showLinks ?  buttonStyleShow : buttonStyle}
+          css={showLinks ? buttonStyleShow : buttonStyle}
           id="login"
           onClick={() => {
             history.push('/login');
-            setShowLinks(false)
+            setShowLinks(false);
           }}
         >
           Login
         </Button>
-        <Button
-          css={showLinks ?  buttonStyleShow : buttonStyle}
-          id="management"
-          onClick={() => {
-            history.push('/management');
-            setShowLinks(false)
-          }}
-        >
-          Management
-        </Button>
+        {userAcc ? (
+          <Button
+            css={showLinks ? buttonStyleShow : buttonStyle}
+            id="management"
+            onClick={() => {
+              history.push('/management');
+              setShowLinks(false);
+            }}
+          >
+            Management
+          </Button>
+        ) : (
+          <p></p>
+        )}
       </div>
     </div>
   );
