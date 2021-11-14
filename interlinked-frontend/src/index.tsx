@@ -34,7 +34,7 @@ const App: React.FC = () => {
   const [userAcc, setUserAcc] = useState<UserAcc>();
   return (
     <BrowserRouter>
-      <Header userAcc={userAcc} />
+      <Header userAcc={userAcc} setUserAcc={setUserAcc} />
       <Switch>
         <Route path="/videos">
           <VideosView />
@@ -45,12 +45,12 @@ const App: React.FC = () => {
         <Route path="/aboutus">
           <AboutUsView />
         </Route>
-        <Route path="/login">
-          <LoginView setUserAcc={setUserAcc} />
-        </Route>
         <PrivateRoute path="/management" hasPermission={isLoggedIn(userAcc)}>
           <ManagementView />
         </PrivateRoute>
+        <Route path="/login">
+          <LoginView setUserAcc={setUserAcc} />
+        </Route>
         <Route path="/">
           <HomepageView />
         </Route>

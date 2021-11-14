@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */ import { Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import './header.css';
+import { logout } from '../firebase/firebaseAuth';
 
 const breakpoints = [830, 1200, 1500];
 
@@ -102,9 +103,10 @@ const hamburgerStyle = css({
 
 interface HeaderProps {
   userAcc: UserAcc | undefined;
+  setUserAcc: React.Dispatch<React.SetStateAction<UserAcc | undefined>>;
 }
 
-const Header: React.FC<HeaderProps> = ({ userAcc }) => {
+const Header: React.FC<HeaderProps> = ({ userAcc, setUserAcc }) => {
   const history = useHistory();
 
   const [showLinks, setShowLinks] = useState(false);
@@ -138,14 +140,6 @@ const Header: React.FC<HeaderProps> = ({ userAcc }) => {
         >
           Videos
         </Button>
-        {/* <Button
-          id="events"
-          onClick={() => {
-            history.push('/events');
-          }}
-        >
-          Eventos
-        </Button> */}
         <Button
           css={showLinks ? buttonStyleShow : buttonStyle}
           id="about us"
@@ -154,17 +148,7 @@ const Header: React.FC<HeaderProps> = ({ userAcc }) => {
             setShowLinks(false);
           }}
         >
-          Acerca de
-        </Button>
-        <Button
-          css={showLinks ? buttonStyleShow : buttonStyle}
-          id="login"
-          onClick={() => {
-            history.push('/login');
-            setShowLinks(false);
-          }}
-        >
-          Login
+          About us
         </Button>
         {userAcc ? (
           <Button
@@ -179,6 +163,31 @@ const Header: React.FC<HeaderProps> = ({ userAcc }) => {
           </Button>
         ) : (
           <p></p>
+        )}
+        {!userAcc ? (
+          <Button
+            css={showLinks ? buttonStyleShow : buttonStyle}
+            id="login"
+            onClick={() => {
+              history.push('/login');
+              setShowLinks(false);
+            }}
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            css={showLinks ? buttonStyleShow : buttonStyle}
+            id="logout"
+            onClick={() => {
+              logout();
+              setUserAcc(undefined);
+              history.push('/home');
+              setShowLinks(false);
+            }}
+          >
+            Logout
+          </Button>
         )}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { auth } from '../firebase/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { FirebaseError } from '@firebase/util';
 
 export const signInwithEmail = async (
@@ -36,6 +36,8 @@ export const signInwithEmail = async (
     return { state: 'auth error', error: 'Unknown Error' };
   }
 };
+
+export const logout = () => signOut(auth);
 
 export const isLoggedIn = (userAcc: UserAcc | undefined): boolean =>
   typeof userAcc !== 'undefined';
