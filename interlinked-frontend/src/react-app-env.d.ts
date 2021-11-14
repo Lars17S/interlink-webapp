@@ -26,3 +26,7 @@ interface VideoParams {
 }
 
 type Video = VideoData & VideoParams;
+
+interface UserAcc {
+  uid: string;
+}

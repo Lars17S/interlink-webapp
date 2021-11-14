@@ -1,14 +1,18 @@
 import { auth } from '../firebase/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { FirebaseError } from '@firebase/util';
 
 export const signInwithEmail = async (
   email: string,
-  password: string
+  password: string,
+  setUserAcc: React.Dispatch<React.SetStateAction<UserAcc | undefined>>
 ): Promise<SuccessState | AuthenticationError> => {
   try {
     const userCred = await signInWithEmailAndPassword(auth, email, password);
     if (userCred.user !== null) {
+      setUserAcc({
+        uid: userCred.user.uid,
+      });
       return { state: 'success' };
     }
     return { state: 'auth error', error: 'Server error' };
@@ -32,3 +36,8 @@ export const signInwithEmail = async (
     return { state: 'auth error', error: 'Unknown Error' };
   }
 };
+
+export const logout = () => signOut(auth);
+
+export const isLoggedIn = (userAcc: UserAcc | undefined): boolean =>
+  typeof userAcc !== 'undefined';
