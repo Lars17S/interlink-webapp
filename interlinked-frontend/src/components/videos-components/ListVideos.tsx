@@ -100,8 +100,8 @@ const ListVideos: React.FC<ListVideosProps> = ({ categorySearch }) => {
               <img
                 src={getVideoThumbnailLink(element.link)}
                 alt="new"
-                width="97%"
-                height="210"
+                width="95%"
+                height="auto"
               />
               <div css={blockValues}>
                 <h1> {element.title} </h1>
