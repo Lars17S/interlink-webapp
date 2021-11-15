@@ -51,6 +51,7 @@ const blockValues = css({
     fontSize: '1em',
     lineHeight: '1.2em',
     marginTop: '0.5em',
+    marginLeft: '-1em',
   },
   [mq[1]]: {
     //responsive middle size
