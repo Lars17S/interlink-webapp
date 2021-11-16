@@ -29,8 +29,6 @@ const selectStyle = css({
       borderBottom: '1px solid white',
       color: 'white',
       marginTop: '20px',
-
-      
     },
     svg: {
       color: 'white',
@@ -44,18 +42,13 @@ const InputLabelStyles = css({
     alignItems: 'center',
     maxHeight: '50px',
     color: 'white',
-    marginTop:'10px',
+    marginTop: '10px',
     label: {
       color: 'white',
-      
-      
     },
   },
-
 });
-const optionText = css({
 
-});
 interface FilterTitleProps {
   categorySearch: string;
   setCategorySearch: (category: string) => void;
@@ -76,12 +69,10 @@ const FilterTitle: React.FC<FilterTitleProps> = ({
     <div css={divStyles}>
       <h1>{categorySearch} Videos</h1>
       <FormControl>
-        
-          <InputLabel id="options-label" css={InputLabelStyles}
-          >
-            Options
-          </InputLabel>
-        
+        <InputLabel id="options-label" css={InputLabelStyles}>
+          Options
+        </InputLabel>
+
         <Select
           css={selectStyle}
           labelId="options-label"
